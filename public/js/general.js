@@ -18,14 +18,39 @@ $(() => {
   // TODO: Listening real time
 
   // TODO: Firebase observador del cambio de estado
-  //$('#btnInicioSesion').text('Salir')
-  //$('#avatar').attr('src', user.photoURL)
-  //$('#avatar').attr('src', 'imagenes/usuario_auth.png')
+  firebase.auth().onAuthStateChanged(user => {
+    if(user) {
+      $('#btnInicioSesion').text('Salir')
+      if(user.photoURL) {
+        $('#avatar').attr('src', user.photoURL)
+      }else {
+        $('#avatar').attr('src', '')
+      }
+    }else {
+      $('#btnInicioSesion').text('Ingresar')
+      $('#avatar').attr('src', '')
+    }
+  })
+
+  //
+  //$
+  //
   //$('#btnInicioSesion').text('Iniciar Sesión')
   //$('#avatar').attr('src', 'imagenes/usuario.png')
 
   // TODO: Evento boton inicio sesion
   $('#btnInicioSesion').click(() => {
+    const user = firebase.auth().currentUser
+    if (user) {
+      $('#btnInicioSesion').text('Iniciando pa!')
+      return firebase.auth().signOut()
+      .then (() => {
+        Materialize.toast(`Saliste de escueLean`, 4000)
+      }).catch (error => {
+        Materialize.toast(`Error al realizar SignOut => ${error}`, 4000)
+      })
+    }
+
     //$('#avatar').attr('src', 'imagenes/usuario.png')
     // Materialize.toast(`Error al realizar SignOut => ${error}`, 4000)
     
@@ -39,7 +64,7 @@ $(() => {
     firebase.auth().signOut()
     .then(() => {
       $('#avatar').attr('src', '')
-      Materialize.toast(`Cerraste tu sesión`, 4000)
+      Materialize.toast(`<p>Cerraste tu sesión`, 4000)
     })
     .catch(error => {
       Materialize.toast(`Error al cerrar tu sesión ${error}`, 4000)
