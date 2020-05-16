@@ -17,6 +17,11 @@ $(() => {
 
   // TODO: Listening real time
 
+  const post = new Post()
+  post.consultarTodosPost()
+
+
+
   // TODO: Firebase observador del cambio de estado
   firebase.auth().onAuthStateChanged(user => {
     if(user) {
@@ -72,7 +77,9 @@ $(() => {
   })
 
   $('#btnTodoPost').click(() => {
-    $('#tituloPost').text('Posts de la Comunidad')   
+    $('#tituloPost').text('Posts de la Comunidad') 
+    const post = new Post ()
+    post.consultarTodosPost()  
   })
 
   $('#btnMisPost').click(() => {
